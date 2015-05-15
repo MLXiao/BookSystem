@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+body {
+  font-family: Microsoft Yahei
+}
+
+a {
+  text-decoration: none;
+}
+
+.ui-dialog-body {
+  padding: 10px;
+}
