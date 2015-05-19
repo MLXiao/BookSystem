@@ -22,4 +22,11 @@
         <example>${mt.htmlEncode('')}</example>
     </function>
 
+    <function>
+        <name>getFullPath</name>
+        <function-class>com.tyut.book.util.PathUtil</function-class>
+        <function-signature>java.lang.String getFullPath(java.lang.String)</function-signature>
+        <example>${mt.getFullPath('')}</example>
+    </function>
+
 </taglib>

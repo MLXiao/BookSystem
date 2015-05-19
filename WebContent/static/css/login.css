@@ -81,7 +81,7 @@ input {
   margin-left: 20px;
 }
 
-.username_wrapper, .password_wrapper, .verification_code_wrapper {
+.username_wrapper, .password_wrapper, .verify_code_wrapper {
   margin-left: 20px;
   position: relative
 }
@@ -113,26 +113,26 @@ input[type='button']:active {
   opacity: 0.9;
 }
 
-input[name='verificationCode'] {
+input[name='verifyCode'] {
   width: 200px;
   text-indent: 10px;
 }
 
-input[name='verificationCode']:focus {
+input[name='verify']:focus {
   border-color: #3F89EC;
 }
 
-.verification_code_wrapper img {
+.verify_code_wrapper img {
   cursor: pointer;
   position: absolute;
   margin-left: 6px;
-  border-left: 1px solid #D8D8D8;
-  border-right: 1px solid #D8D8D8;
+  border: 1px solid #D8D8D8;
+  /* border-right: 1px solid #D8D8D8; */
   height: 34px;
   width: 90px;
 }
 
-.verification_code_clearer {
+.verify_code_clearer {
   position: absolute;
   top: 8px;
   right: 123px;

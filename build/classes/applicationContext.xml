@@ -29,20 +29,20 @@
   </bean>
 
   <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-    <property name="driverClass" value="${jdbc.driver}"></property>
-    <property name="jdbcUrl" value="${jdbc.url}"></property>
-    <property name="user" value="${jdbc.user}"></property>
-    <property name="password" value="${jdbc.password}"></property>
+    <property name="driverClass" value="${jdbc.driver}" />
+    <property name="jdbcUrl" value="${jdbc.url}" />
+    <property name="user" value="${jdbc.user}" />
+    <property name="password" value="${jdbc.password}" />
 
-    <property name="maxPoolSize" value="20"></property>
-    <property name="minPoolSize" value="5"></property>
-    <property name="acquireIncrement" value="3"></property>
-    <property name="initialPoolSize" value="5"></property>
+    <property name="maxPoolSize" value="20" />
+    <property name="minPoolSize" value="5" />
+    <property name="acquireIncrement" value="3" />
+    <property name="initialPoolSize" value="5" />
   </bean>
 
   <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
     <property name="dataSource" ref="dataSource" />
-    <property name="typeAliasesPackage" value="com.tyut.book.model"></property>
+    <property name="typeAliasesPackage" value="com.tyut.book.model" />
     <property name="mapperLocations" value="classpath*:com/tyut/book/model/mysql/*Mapper.xml" />
   </bean>
 
@@ -51,9 +51,11 @@
   </bean>
 
   <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-    <property name="dataSource" ref="dataSource"></property>
+    <property name="dataSource" ref="dataSource" />
   </bean>
 
-  <bean class="com.tyut.book.util.SpringUtil"></bean>
+  <bean id="userService" class="com.tyut.book.service.impl.UserServiceImpl" />
+
+  <bean class="com.tyut.book.util.SpringUtil" />
 
 </beans>
