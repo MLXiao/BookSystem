@@ -1,4 +1,6 @@
-$(function() {
+function login() {
+    $('.login').css("display", "block");
+
     var fullPathPrefix = $('input[name=fullPathPrefix]').val();
     var staticUrl = $('input[name=staticUrl]').val();
     var $loginBtn = $('#loginBtn');
@@ -6,9 +8,15 @@ $(function() {
     var $userNameWrapper = $('.username_wrapper');
     var $password = $('input[name=password]');
     var $passwordWrapper = $('.password_wrapper');
-    var $verifyCode = $('input[name=verify]');
+    var $verifyCode = $('input[name=verifyCode]');
     var $verifyCodeWrapper = $('.verify_code_wrapper');
     var $verifyCodeImg = $('.verify_code_wrapper img');
+    var $loginErrorMessage = $('.login_error_message');
+
+    $('.login_close').on('click', function() {
+        tipDialog.close();
+        $('.login').css("display", "none");
+    });
 
     var tipDialog = dialog({
         align: 'right',
@@ -34,14 +42,14 @@ $(function() {
 
     $verifyCodeImg.on('click', function() {
         $.ajax({
-            url : fullPathPrefix + '/user/update_code',
+            url : fullPathPrefix + '/user/update_vcode',
             type : 'POST',
-            dateType : 'text',
+            dataType : 'text',
             beforeSend : function(XMLHttpRequest) {
                 $verifyCodeImg.attr('src', staticUrl + '/images/verify_code_loading.gif');
             },
             success: function(data) {
-                $verifyCodeImg.attr('src', staticUrl + '/images/verify_code.png?date=' + new Date().getTime());
+                $verifyCodeImg.attr('src', 'data:image/png;base64,' + data);
             }
         });
     });
@@ -67,5 +75,58 @@ $(function() {
             $verifyCode.focus();
             return;
         }
+
+        var user = { 
+            'username' : $username.val(),
+            'password' : $password.val(),
+            'verifyCode' : $verifyCode.val()
+        };
+
+        $.ajax({
+            url : fullPathPrefix + '/user/login',
+            type : 'POST',
+            data : JSON.stringify(user),
+            contentType : 'application/json; charset=utf-8',
+            dateType : 'json',
+            success: function(data) {
+                $.each(data, function(key) {
+                    if (key == 'verifyCode') {
+                        tipDialog.content(data[key]);
+                        tipDialog.show($verifyCodeWrapper[0]);
+                        $verifyCode.focus();
+                        console.debug(loginResult);
+                        return;
+                    }
+
+                    if (key == 'service') {
+                        $loginErrorMessage.html(data[key]);
+                        return;
+                    }
+                });
+
+                if ($.isEmptyObject(data)) {
+                    $loginErrorMessage.html('');
+                    location.href = fullPathPrefix + '/user/homepage'
+                }
+            }
+        });
+
     });
-});
+
+    $verifyCodeImg.click();
+
+    $(document).on('keydown', function(e) {
+        if ($('.login').css("display") == "block") {
+            switch(e.keyCode) {
+                case 13:
+                    $loginBtn.click();
+                    break;
+                case 27:
+                    $('.login_close').click();
+                    break;
+                default :
+                    break;
+            }
+        }
+    })
+}

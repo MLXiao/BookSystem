@@ -2,6 +2,8 @@ package com.tyut.book;
 
 import java.util.HashMap;
 
+import com.tyut.book.model.User;
+
 
 public class AppContext {
 
@@ -39,12 +41,32 @@ public class AppContext {
         initParams.remove(key);
     }
 
-    public static String getContextPath() {
+    public String getContextPath() {
         return AppContext.contextPath;
     }
 
-    public static void setContextPath(String contextPath) {
+    public void setContextPath(String contextPath) {
         AppContext.contextPath = contextPath;
+    }
+
+    public User getUser() {
+        return (User)initParams.get(Constants.USER);
+    }
+
+    public String getUserName() {
+        User user = (User) initParams.get(Constants.USER);
+        if (user != null) {
+            return user.getUsername();
+        }
+        return "";
+    }
+
+    public int getUserId() {
+        User user = (User) initParams.get(Constants.USER);
+        if (user != null) {
+            return user.getId();
+        }
+        return 0 ;
     }
 
 }

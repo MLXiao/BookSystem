@@ -9,8 +9,11 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.tyut.book.AppContext;
+import com.tyut.book.Constants;
 
 public class AppContextFilter implements Filter {
 
@@ -25,7 +28,17 @@ public class AppContextFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res,
             FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
-        AppContext.setContextPath(request.getContextPath());
+        HttpServletResponse response = (HttpServletResponse) res;
+        HttpSession session = request.getSession();
+
+        AppContext appContext = AppContext.getInstance();
+
+        appContext.setContextPath(request.getContextPath());
+        appContext.addObject(Constants.APP_CONTEXT_REQUEST, request);
+        appContext.addObject(Constants.APP_CONTEXT_RESPONSE, response);
+        appContext.addObject(Constants.APP_CONTEXT_SESSION, session);
+        appContext.addObject(Constants.USER, session.getAttribute(Constants.USER));
+
         chain.doFilter(req, res);
     }
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tyut.book.model.Book">
+
+  <resultMap type="Book" id="bookMap">
+    <result column="id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="category_id" property="categoryId"/>
+    <result column="owner_id" property="ownerId"/>
+    <result column="current_owner_id" property="currentOwnerId"/>
+    <result column="deposit" property="deposit"/>
+    <result column="cover" property="cover"/>
+    <result column="description" property="description"/>
+    <result column="loan_status" property="loanStatus"/>
+    <result column="created_time" property="createdTime"/>
+    <result column="updated_time" property="updatedTime"/>
+    <result column="is_deleted" property="isDeleted"/>
+  </resultMap>
+
+  <insert id="create" parameterType="Book" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+      INSERT INTO `book_system`.`book` (`name`, `category_id`, `owner_id`, `current_owner_id`, `deposit`, `cover`, `description`, `loan_status`) 
+        VALUES (#{name}, #{categoryId}, #{ownerId}, #{currentOwnerId}, #{deposit}, #{cover}, #{description}, #{loanStatus});
+    ]]>
+    </insert>
+
+</mapper>

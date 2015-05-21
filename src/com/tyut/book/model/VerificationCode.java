@@ -4,12 +4,15 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+
+import sun.misc.BASE64Encoder;
 
 public class VerificationCode {
 
@@ -129,6 +132,17 @@ public class VerificationCode {
 
     public BufferedImage getBuffImg() {
         return buffImg;
+    }
+
+    public String getImgBase64String() {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(buffImg, "png", out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        byte[] bytes = out.toByteArray();
+        return new BASE64Encoder().encode(bytes);
     }
 
     public String getCode() {

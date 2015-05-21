@@ -54,7 +54,33 @@
     <property name="dataSource" ref="dataSource" />
   </bean>
 
-  <bean id="userService" class="com.tyut.book.service.impl.UserServiceImpl" />
+  <tx:advice id="txAdvice" transaction-manager="transactionManager">
+    <tx:attributes>
+      <tx:method name="delete*" propagation="REQUIRED" read-only="false" />
+      <tx:method name="add*" propagation="REQUIRED" read-only="false" />
+      <tx:method name="update*" propagation="REQUIRED" read-only="false" />
+      <tx:method name="save*" propagation="REQUIRED" read-only="false" />
+      <tx:method name="*" propagation="SUPPORTS" read-only="true" />
+    </tx:attributes>
+  </tx:advice>
+
+  <bean id="logMethodTimeAdvice" class="com.tyut.book.advice.LogMethodTimeAdvice"/>
+  
+  <aop:config>
+    <aop:pointcut id="pc" expression="execution(* com.tyut.book.service..*.*(..))" />
+    <aop:advisor pointcut-ref="pc" advice-ref="txAdvice" order="1" />
+    <aop:advisor pointcut-ref="pc" advice-ref="logMethodTimeAdvice" order="2" />
+  </aop:config>
+
+  <bean id="baseDao" abstract="true">
+    <property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+  </bean>
+
+  <bean id="userDao" class="com.tyut.book.dao.impl.mybatis.UserDaoImpl" parent="baseDao" />
+
+  <bean id="userService" class="com.tyut.book.service.impl.UserServiceImpl" >
+    <property name="userDao" ref="userDao" />
+  </bean>
 
   <bean class="com.tyut.book.util.SpringUtil" />
 

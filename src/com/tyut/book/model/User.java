@@ -12,7 +12,7 @@ public class User{
     private String email;
     private int balance;
     private GenderEnum gender;
-    private byte[] avotor;
+    private byte[] avatar;
     private boolean isForbidden;
     private Date createdTime;
     private Date updatedTime;
@@ -72,11 +72,11 @@ public class User{
     public void setGender(GenderEnum gender) {
         this.gender = gender;
     }
-    public byte[] getAvotor() {
-        return avotor;
+    public byte[] getAvatar() {
+        return avatar;
     }
-    public void setAvotor(byte[] avotor) {
-        this.avotor = avotor;
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
     }
     public boolean isForbidden() {
         return isForbidden;

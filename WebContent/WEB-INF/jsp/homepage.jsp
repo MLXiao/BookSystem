@@ -1,3 +1,5 @@
+<%@page import="com.tyut.book.Constants"%>
+<%@page import="com.tyut.book.model.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="mt" uri="/myTags" %>
@@ -11,9 +13,9 @@
     <link rel="stylesheet" href="${mt:getStaticUrl() }/css/common.css" />
     <link rel="stylesheet" href="${mt:getStaticUrl() }/css/login.css" />
   </head>
-  <body style="background: url('${mt:getStaticUrl() }/images/bg_homepage.png') no-repeat;">
+  <body>
 
-    <div class="login">
+    <div class="login" style="display: none;">
       <div class="login_mask"></div>
       <div class="login_main">
         <div class="login_header">
@@ -21,7 +23,6 @@
           <span class="login_close login_x">X</span>
         </div>
         <div class="login_error_message"></div>
-        <div class="error_message"></div>
         <div class="username_wrapper">
           <input type="text" name="username"  placeholder="用户名" autofocus />
           <span class="username_clearer login_x">X</span>
@@ -35,7 +36,7 @@
         <div class="verify_code_wrapper">
           <input type="text" name="verifyCode" placeholder="验证码">
           <span class="verify_code_clearer login_x">X</span>
-          <img title="点击更换图片" alt="验证码" src="${mt:getStaticUrl() }/images/verify_code.png" />
+          <img title="点击更换图片" alt="验证码" src="${mt:getStaticUrl() }/images/verify_code_loading.gif" />
         </div>
         <div class="remeber_pass_wrapper">
           <input type="checkbox" name="remeberPass" /><label>记住密码</label>
@@ -45,6 +46,8 @@
         <a class="register" href="#">立即注册</a>
       </div>
     </div>
+
+    <jsp:include page="Header.jsp"></jsp:include>
 
     <input type="hidden" name="fullPathPrefix" value="${mt:getFullPath('') }"/>
     <input type="hidden" name="staticUrl" value="${mt:getStaticUrl() }"/>

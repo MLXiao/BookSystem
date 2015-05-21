@@ -10,7 +10,7 @@ public class PathUtil {
             path = "";
         }
         String urlPrefix = Constants.APP_URL_PREFIX;
-        return AppContext.getContextPath() + urlPrefix  + path;
+        return AppContext.getInstance().getContextPath() + urlPrefix  + path;
     }
 
 }
