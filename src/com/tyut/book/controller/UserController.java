@@ -26,7 +26,7 @@ public class UserController extends BaseController {
     private UserService userService;
 
     @RequestMapping(value = "/homepage", method = RequestMethod.GET)
-    public ModelAndView login() {
+    public ModelAndView goHomepage() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName(Constants.HOMEPAGE_JSP);
         return mav;
@@ -34,7 +34,7 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, String> verifyLogin(@RequestBody Map<String, String> inputMap) {
+    public Map<String, String> login(@RequestBody Map<String, String> inputMap) {
         Map<String, String> resultMap = new HashMap<String, String>();
         try {
             User user = userService.login(inputMap.get("username"), inputMap.get("password"), inputMap.get("verifyCode"));
@@ -61,6 +61,14 @@ public class UserController extends BaseController {
         }
         super.setSessionAttribute(Constants.VERIFY_CODE, vCode.getCode());
         return vCode.getImgBase64String();
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public ModelAndView logout() {
+        ModelAndView mav = new ModelAndView();
+        super.removeSessionAttribute(Constants.USER);
+        mav.setViewName(Constants.HOMEPAGE_JSP);
+        return mav;
     }
 
 }

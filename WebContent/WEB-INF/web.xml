@@ -16,6 +16,9 @@
     <error-code>500</error-code>
     <location>/static/500.html</location>
   </error-page>
+  <session-config>
+    <session-timeout>-1</session-timeout>
+  </session-config>
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath*:applicationContext.xml</param-value>

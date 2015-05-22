@@ -49,7 +49,7 @@ function login() {
                 $verifyCodeImg.attr('src', staticUrl + '/images/verify_code_loading.gif');
             },
             success: function(data) {
-                $verifyCodeImg.attr('src', 'data:image/png;base64,' + data);
+                $verifyCodeImg.attr('src', data);
             }
         });
     });

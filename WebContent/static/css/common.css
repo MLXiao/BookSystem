@@ -3,7 +3,10 @@
 body {
   font-family: Microsoft Yahei;
   margin: 0;
-  height: 1500px;
+}
+
+ul {
+  list-style: none;
 }
 
 a {

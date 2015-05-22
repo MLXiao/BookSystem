@@ -10,6 +10,7 @@
     <result column="owner_id" property="ownerId"/>
     <result column="current_owner_id" property="currentOwnerId"/>
     <result column="deposit" property="deposit"/>
+    <result column="author" property="author"/>
     <result column="cover" property="cover"/>
     <result column="description" property="description"/>
     <result column="loan_status" property="loanStatus"/>
@@ -18,11 +19,29 @@
     <result column="is_deleted" property="isDeleted"/>
   </resultMap>
 
+  <resultMap type="Category" id="categoryMap">
+    <result column="id" property="id"/>
+    <result column="name" property="name"/>
+  </resultMap>
+
   <insert id="create" parameterType="Book" useGeneratedKeys="true" keyProperty="id">
     <![CDATA[
-      INSERT INTO `book_system`.`book` (`name`, `category_id`, `owner_id`, `current_owner_id`, `deposit`, `cover`, `description`, `loan_status`) 
-        VALUES (#{name}, #{categoryId}, #{ownerId}, #{currentOwnerId}, #{deposit}, #{cover}, #{description}, #{loanStatus});
+      INSERT INTO `book_system`.`book` (`name`, `category_id`, `owner_id`, `current_owner_id`, `deposit`, `author`, `cover`, `description`) 
+        VALUES (#{name}, #{categoryId}, #{ownerId}, #{currentOwnerId}, #{deposit}, #{author}, #{cover}, #{description});
     ]]>
-    </insert>
+  </insert>
+
+  <select id="findAllCategory" resultMap="categoryMap">
+    <![CDATA[
+      SELECT * FROM `book_system`.`category`
+    ]]>
+  </select>
+
+  <select id="getCategoryIdByName" parameterType="String" resultType="int">
+    <![CDATA[
+      SELECT id FROM `book_system`.`category`
+      WHERE name = #{categoryName}
+    ]]>
+  </select>
 
 </mapper>

@@ -10,6 +10,7 @@ public class Book {
     private int ownerId;
     private int currentOwnerId;
     private int  deposit;
+    private String author;
     private byte[] cover;
     private String description;
     private LoanStatusEnum loanStatus;
@@ -52,6 +53,12 @@ public class Book {
     }
     public void setDeposit(int deposit) {
         this.deposit = deposit;
+    }
+    public String getAuthor() {
+        return author;
+    }
+    public void setAuthor(String author) {
+        this.author = author;
     }
     public byte[] getCover() {
         return cover;

@@ -142,7 +142,7 @@ public class VerificationCode {
             e.printStackTrace();
         }
         byte[] bytes = out.toByteArray();
-        return new BASE64Encoder().encode(bytes);
+        return "data:image/png;base64," + new BASE64Encoder().encode(bytes);
     }
 
     public String getCode() {

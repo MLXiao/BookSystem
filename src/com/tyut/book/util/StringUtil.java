@@ -1,6 +1,10 @@
 package com.tyut.book.util;
 
+import java.io.IOException;
 import java.security.MessageDigest;
+
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 public class StringUtil {
 
@@ -120,4 +124,20 @@ public class StringUtil {
         }
     }
 
+    public static byte[] base64ToByteArray(String Base64String) {
+        if (Base64String.startsWith("data:image/png;base64,")) {
+            Base64String = Base64String.substring("data:image/png;base64,".length());
+        }
+        byte[] result = null;
+        try {
+            result = new BASE64Decoder().decodeBuffer(Base64String);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static String ByteArrayToImgBase4String(byte[] bytes) {
+        return "data:image/png;base64," + new BASE64Encoder().encode(bytes);
+    }
 }
