@@ -7,8 +7,11 @@
     <result column="id" property="id"/>
     <result column="name" property="name"/>
     <result column="category_id" property="categoryId"/>
+    <result column="category_name" property="categoryName"/>
     <result column="owner_id" property="ownerId"/>
+    <result column="owner_name" property="ownerName"/>
     <result column="current_owner_id" property="currentOwnerId"/>
+    <result column="current_owner_name" property="currentOwnerName"/>
     <result column="deposit" property="deposit"/>
     <result column="author" property="author"/>
     <result column="cover" property="cover"/>
@@ -42,6 +45,43 @@
       SELECT id FROM `book_system`.`category`
       WHERE name = #{categoryName}
     ]]>
+  </select>
+
+  <select id="getMybookCount" parameterType="Map" resultType="int">
+    SELECT count(*) 
+    FROM `book_system`.`book`
+    WHERE `owner_id` = #{userId}
+        AND `name` LIKE #{keyWord}
+    <if test="categoryId != 0">
+        AND `category_id` = #{categoryId}
+    </if>
+    <if test="loanStatus != 'all'">
+        AND `loan_status` = #{loanStatus}
+    </if>
+  </select>
+
+  <select id="findMyBook" parameterType="Map" resultMap="bookMap">
+    SELECT b.id, b.name, b.category_id, c.name AS category_name, 
+        b.owner_id, u1.username AS owner_name,
+        b.current_owner_id, u2.username AS current_owner_name,
+        b.deposit, b.author, b.cover, b.description, b.loan_status,
+        b.created_time, b.updated_time, b.is_deleted
+    FROM book b
+        JOIN user u1
+            ON b.owner_id = u1.id
+        JOIN user u2
+            ON b.current_owner_id = u2.id
+        JOIN category c
+            ON b.category_id = c.id
+    WHERE b.owner_id = #{userId}
+        AND b.name Like #{keyWord}
+    <if test="categoryId != 0">
+        AND b.category_id = #{categoryId}
+    </if>
+    <if test="loanStatus != 'all'">
+        AND b.loan_status = #{loanStatus}
+    </if>
+    LIMIT #{offSet}, #{pageSize}
   </select>
 
 </mapper>

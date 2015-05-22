@@ -86,6 +86,8 @@
     <property name="bookDao" ref="bookDao" />
   </bean>
 
+  <bean id="bookController" class="com.tyut.book.controller.BookController" />
+
   <bean class="com.tyut.book.util.SpringUtil" />
 
 </beans>

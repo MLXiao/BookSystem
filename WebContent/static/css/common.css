@@ -64,3 +64,12 @@ a {
   width: 100px;
   height: 200px;
 }
+
+.content_wrapper {
+  overflow: hidden;
+  width: 1280px;
+  top:40px;
+  background-color: rgb(231, 237, 235);
+  margin-left: auto;
+  margin-right: auto;
+}

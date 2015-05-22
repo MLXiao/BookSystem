@@ -15,5 +15,11 @@
 
     <jsp:include page="common/login.jsp"></jsp:include>
 
+    <script type="text/javascript">
+      if (location.hash == "#login") {
+          login();
+      }
+    </script>
+
   </body>
 </html>

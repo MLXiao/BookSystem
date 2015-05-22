@@ -16,6 +16,7 @@ import com.tyut.book.exception.ParameterException;
 import com.tyut.book.exception.ServiceException;
 import com.tyut.book.model.User;
 import com.tyut.book.model.VerificationCode;
+import com.tyut.book.service.BookService;
 import com.tyut.book.service.UserService;
 
 @Controller
@@ -25,9 +26,15 @@ public class UserController extends BaseController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BookService bookService;
+
     @RequestMapping(value = "/homepage", method = RequestMethod.GET)
     public ModelAndView goHomepage() {
         ModelAndView mav = new ModelAndView();
+        if (super.getSessionAttribute(Constants.ALL_CATEGORY) == null) {
+            super.setSessionAttribute(Constants.ALL_CATEGORY, bookService.findAllCategory());
+        }
         mav.setViewName(Constants.HOMEPAGE_JSP);
         return mav;
     }

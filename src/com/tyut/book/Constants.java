@@ -1,5 +1,6 @@
 package com.tyut.book;
 
+
 public class Constants {
 
     public static final String VERIFY_CODE = "VERIFY_CODE";
@@ -15,9 +16,11 @@ public class Constants {
     public static final String APP_URL_USER_PREFIX = APP_URL_PREFIX + "/user";
     public static final String HOMEPAGE_JSP = "homepage";
     public static final String ADD_BOOK_JSP = "add_book";
+    public static final String MY_BOOK_JSP = "my_book";
 
     public static final String ALL_CATEGORY = "ALL_CATEGORY";
 
     public static final String FLASH_MESSAGE = "FLASH_MESSAGE";
+
 
 }

@@ -23,7 +23,7 @@
       </div>
       <div class="user_operation_detail" style="display: none;">
         <div class="upload_book" onclick="javascript:location.href = '${mt:getFullPath('') }/book/add_book'">上架图书</div>
-        <div>我的图书</div>
+        <div onclick="javascript:location.href = '${mt:getFullPath('') }/book/my_book'">我的图书</div>
         <div>我的收藏</div>
         <div>我的借阅</div>
       </div>

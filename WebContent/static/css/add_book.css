@@ -5,16 +5,6 @@ li {
   width: 30px;
 }
 
-.content_wrapper {
-  overflow: hidden;
-  width: 1280px;
-  height: 800px;
-  top:40px;
-  background-color: rgb(231, 237, 235);
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .basic_info {
   background-color: rgb(220, 224, 207);
   width: 500px;

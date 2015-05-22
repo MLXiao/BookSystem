@@ -7,8 +7,11 @@ public class Book {
     private int id;
     private String name;
     private int categoryId;
+    private String categoryName;
     private int ownerId;
+    private String ownerName;
     private int currentOwnerId;
+    private String currentOwnerName;
     private int  deposit;
     private String author;
     private byte[] cover;
@@ -95,6 +98,24 @@ public class Book {
     }
     public void setDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+    public String getCategoryName() {
+        return categoryName;
+    }
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+    public String getOwnerName() {
+        return ownerName;
+    }
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+    public String getCurrentOwnerName() {
+        return currentOwnerName;
+    }
+    public void setCurrentOwnerName(String currentOwnerName) {
+        this.currentOwnerName = currentOwnerName;
     }
 
 }

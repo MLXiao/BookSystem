@@ -29,7 +29,7 @@
         <ul>
           <li>图书分类:</li>
           <li>
-            <% List<Category> allCategory = (List<Category>)request.getAttribute(Constants.ALL_CATEGORY);                        %>
+            <% List<Category> allCategory = (List<Category>)session.getAttribute(Constants.ALL_CATEGORY);                        %>
             <select name="categoryId">
               <option>请选择...</option>
             <% for (Category category : allCategory) {                         %>

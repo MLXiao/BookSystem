@@ -140,4 +140,21 @@ public class StringUtil {
     public static String ByteArrayToImgBase4String(byte[] bytes) {
         return "data:image/png;base64," + new BASE64Encoder().encode(bytes);
     }
+
+    public static String toFuzzyKeyWord(String keyWord) {
+        if (isEmpty(keyWord)) {
+            return "%";
+        }
+        if (keyWord.contains("%")) {
+            keyWord = replace(keyWord, "%", "\\%");
+        }
+        if (keyWord.contains("_")) {
+            keyWord = replace(keyWord, "_", "\\_");
+        }
+        if (keyWord.contains("\\")) {
+            keyWord = replace(keyWord, "_", "\\\\");
+        }
+        return keyWord;
+    }
+
 }
