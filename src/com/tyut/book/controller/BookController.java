@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,12 +14,15 @@ import com.tyut.book.Constants;
 import com.tyut.book.model.Book;
 import com.tyut.book.model.Pagination;
 import com.tyut.book.service.BookService;
+import com.tyut.book.service.UserService;
 import com.tyut.book.util.StringUtil;
 
 @Controller
 @RequestMapping(value = Constants.APP_URL_BOOK_PREFIX)
 public class BookController extends BaseController {
 
+    @Autowired
+    private UserService userService;
     @Autowired
     private BookService bookService;
 
@@ -57,15 +61,28 @@ public class BookController extends BaseController {
 
         List<Book> bookList = bookService.findMyBook(super.getUserId(), pagination, loanStatus, keyWord, categoryId);
 
-        mav.addObject("currentPage", pagination.getCurrentPage());
-        mav.addObject("pageList", pagination.getPageList());
-        mav.addObject("totalPage", pagination.getTotalPage());
+        mav.addObject("pagination", pagination);
         mav.addObject("keyWord", keyWord);
         mav.addObject("categoryId", categoryId);
         mav.addObject("loanStatus", loanStatus);
         mav.addObject("bookList", bookList);
 
         mav.setViewName(Constants.MY_BOOK_JSP);
+        return mav;
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ModelAndView goBookDetailPage(@PathVariable int id) {
+        ModelAndView mav = new ModelAndView();
+
+        Book book = bookService.getById(id);
+
+        boolean isBookCollected = userService.isBookCollected(getUserId(), id);
+
+        mav.addObject("book", book);
+        mav.addObject("isBookCollected", isBookCollected);
+
+        mav.setViewName(Constants.BOOK_DETAIL_JSP);
         return mav;
     }
 

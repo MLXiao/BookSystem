@@ -17,7 +17,7 @@
       <div class="Header_right">
         <img class="avatar" alt="头像" />
         <a class="username_link" href="#"><%= user.getUsername() %></a>
-        <span>消息</span>
+        <span onclick="location.href='${mt:getFullPath('') }/user/message'">消息<%= session.getAttribute(Constants.MESSAGE_COUNT).toString() == "0" ? "" : session.getAttribute(Constants.MESSAGE_COUNT) %></span>
         <img class="user_operation" alt="操作" onclick="javascript:headerOperation()">
         <a href="${mt:getFullPath('') }/user/logout">注销</a>
       </div>

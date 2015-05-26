@@ -6,5 +6,6 @@ public enum MessageTypeEnum {
     borrow_info,
     return_info,
     confirm_borrow,
+    refuse_borrow,
     confirm_return
 }

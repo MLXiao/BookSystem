@@ -17,4 +17,11 @@ public interface BookService {
     public List<Book> findMyBook(int userId, Pagination pagination, String loanStatus,
             String keyWord, int categoryId);
 
+    public int getAvailableBookCount(int userId, String keyWord, int categoryId);
+
+    public List<Book> findAvailableBook(int userId, Pagination pagination, String keyWord,
+            int categoryId);
+
+    public Book getById(int id);
+
 }

@@ -50,8 +50,10 @@
   <select id="getMybookCount" parameterType="Map" resultType="int">
     SELECT count(*) 
     FROM `book_system`.`book`
-    WHERE `owner_id` = #{userId}
-        AND `name` LIKE #{keyWord}
+    WHERE `name` LIKE #{keyWord}
+    <if test="userId != 0">
+        AND `owner_id` = #{userId}
+    </if>
     <if test="categoryId != 0">
         AND `category_id` = #{categoryId}
     </if>
@@ -73,8 +75,10 @@
             ON b.current_owner_id = u2.id
         JOIN category c
             ON b.category_id = c.id
-    WHERE b.owner_id = #{userId}
-        AND b.name Like #{keyWord}
+    WHERE b.name Like #{keyWord}
+    <if test="userId != 0">
+        AND b.owner_id = #{userId}
+    </if>
     <if test="categoryId != 0">
         AND b.category_id = #{categoryId}
     </if>
@@ -83,5 +87,61 @@
     </if>
     LIMIT #{offSet}, #{pageSize}
   </select>
+
+  <select id="getAvailableBookCount" parameterType="Map" resultType="int">
+    SELECT count(*) 
+    FROM `book_system`.`book`
+    WHERE  `name` LIKE #{keyWord}
+    <if test="userId != 0">
+        AND `owner_id` != #{userId}
+    </if>
+    <if test="categoryId != 0">
+        AND `category_id` = #{categoryId}
+    </if>
+  </select>
+
+  <select id="findAvailableBook" parameterType="Map" resultMap="bookMap">
+    SELECT b.id, b.name, b.category_id, c.name AS category_name, 
+        b.owner_id, u1.username AS owner_name,
+        b.current_owner_id, u2.username AS current_owner_name,
+        b.deposit, b.author, b.cover, b.description, b.loan_status,
+        b.created_time, b.updated_time, b.is_deleted
+    FROM book b
+        JOIN user u1
+            ON b.owner_id = u1.id
+        JOIN user u2
+            ON b.current_owner_id = u2.id
+        JOIN category c
+            ON b.category_id = c.id
+    WHERE b.name Like #{keyWord}
+    <if test="userId != 0">
+        AND b.owner_id != #{userId}
+    </if>
+    <if test="categoryId != 0">
+        AND b.category_id = #{categoryId}
+    </if>
+    LIMIT #{offSet}, #{pageSize}
+  </select>
+
+  <select id="getById" parameterType="int" resultMap="bookMap">
+    SELECT b.id, b.name, b.category_id, c.name AS category_name, 
+        b.owner_id, u1.username AS owner_name,
+        b.current_owner_id, u2.username AS current_owner_name,
+        b.deposit, b.author, b.cover, b.description, b.loan_status,
+        b.created_time, b.updated_time, b.is_deleted
+    FROM book b
+        JOIN user u1
+            ON b.owner_id = u1.id
+        JOIN user u2
+            ON b.current_owner_id = u2.id
+        JOIN category c
+            ON b.category_id = c.id
+    WHERE b.id = #{id}
+  </select>
+
+  <update id="updateStatus" parameterType="Map">
+    UPDATE book SET loan_status = #{status}
+    WHERE id = #{bookId}
+  </update>
 
 </mapper>

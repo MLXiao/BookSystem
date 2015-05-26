@@ -7,49 +7,49 @@ public class BorrowHistory {
     private int id;
     private int borrowerId;
     private int bookId;
-    private boolean isReturned;
-    private Date borrowedTime;
-    private Date returnedTime;
+    private StatusEnum status;
+    private Date createdTime;
+    private Date updatedTime;
     private boolean isDeleted;
 
     public int getId() {
         return id;
     }
-    public void setId(int id) {
-        this.id = id;
-    }
     public int getBorrowerId() {
         return borrowerId;
-    }
-    public void setBorrowerId(int borrowerId) {
-        this.borrowerId = borrowerId;
     }
     public int getBookId() {
         return bookId;
     }
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
+    public StatusEnum getStatus() {
+        return status;
     }
-    public boolean isReturned() {
-        return isReturned;
+    public Date getCreatedTime() {
+        return createdTime;
     }
-    public void setReturned(boolean isReturned) {
-        this.isReturned = isReturned;
-    }
-    public Date getBorrowedTime() {
-        return borrowedTime;
-    }
-    public void setBorrowedTime(Date borrowedTime) {
-        this.borrowedTime = borrowedTime;
-    }
-    public Date getReturnedTime() {
-        return returnedTime;
-    }
-    public void setReturnedTime(Date returnedTime) {
-        this.returnedTime = returnedTime;
+    public Date getUpdatedTime() {
+        return updatedTime;
     }
     public boolean isDeleted() {
         return isDeleted;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void setBorrowerId(int borrowerId) {
+        this.borrowerId = borrowerId;
+    }
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
+    }
+    public void setStatus(StatusEnum status) {
+        this.status = status;
+    }
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
+    }
+    public void setUpdatedTime(Date updatedTime) {
+        this.updatedTime = updatedTime;
     }
     public void setDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;

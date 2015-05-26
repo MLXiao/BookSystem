@@ -44,4 +44,25 @@ public class BookServiceImplTest {
         }
     }
 
+    @Test
+    public void testGetAvailableBookCount() {
+        System.out.println(bookService.getAvailableBookCount(0, "", 0));
+    }
+
+    @Test
+    public void testfindAvailableBook() {
+        Pagination pagination = new Pagination();
+        pagination.setCurrentPage(1);
+        pagination.setPageSize(16);
+        pagination.setTotalCount(bookService.getAvailableBookCount(0, "", 0));
+        for(Book book : bookService.findAvailableBook(0, pagination, "", 0)) {
+            System.out.println(book.getName());
+        }
+    }
+
+    @Test
+    public void testGetById() {
+        System.out.println(bookService.getById(10).getName());
+    }
+
 }

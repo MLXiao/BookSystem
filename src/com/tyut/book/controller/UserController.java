@@ -1,6 +1,7 @@
 package com.tyut.book.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +9,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tyut.book.Constants;
 import com.tyut.book.exception.ParameterException;
 import com.tyut.book.exception.ServiceException;
+import com.tyut.book.model.Book;
+import com.tyut.book.model.Message;
+import com.tyut.book.model.Pagination;
 import com.tyut.book.model.User;
 import com.tyut.book.model.VerificationCode;
 import com.tyut.book.service.BookService;
@@ -30,11 +35,30 @@ public class UserController extends BaseController {
     private BookService bookService;
 
     @RequestMapping(value = "/homepage", method = RequestMethod.GET)
-    public ModelAndView goHomepage() {
+    public ModelAndView goHomepage(
+            @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(value = "keyWord", defaultValue = "") String keyWord,
+            @RequestParam(value = "categoryId", defaultValue = "0") int categoryId
+            ) {
         ModelAndView mav = new ModelAndView();
         if (super.getSessionAttribute(Constants.ALL_CATEGORY) == null) {
             super.setSessionAttribute(Constants.ALL_CATEGORY, bookService.findAllCategory());
         }
+
+        int totalCount = bookService.getAvailableBookCount(super.getUserId(), keyWord, categoryId);
+
+        Pagination pagination = new Pagination();
+        pagination.setTotalCount(totalCount);
+        pagination.setPageSize(16);
+        pagination.setCurrentPage(currentPage);
+
+        List<Book> bookList = bookService.findAvailableBook(super.getUserId(), pagination, keyWord, categoryId);
+
+        mav.addObject("pagination", pagination);
+        mav.addObject("keyWord", keyWord);
+        mav.addObject("categoryId", categoryId);
+        mav.addObject("bookList", bookList);
+
         mav.setViewName(Constants.HOMEPAGE_JSP);
         return mav;
     }
@@ -74,7 +98,57 @@ public class UserController extends BaseController {
     public ModelAndView logout() {
         ModelAndView mav = new ModelAndView();
         super.removeSessionAttribute(Constants.USER);
-        mav.setViewName(Constants.HOMEPAGE_JSP);
+        mav.setView(getRedirectView("/user/homepage"));
+        return mav;
+    }
+
+    @RequestMapping(value = "/collect_book", method = RequestMethod.POST)
+    @ResponseBody
+    public String collectBook(@RequestBody String bookId) {
+        String result = "fail";
+        int row = userService.collectBook(getUserId(), Integer.parseInt(bookId));
+        if (row > 0) {
+            result = "ok";
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "require_borrow", method = RequestMethod.POST)
+    @ResponseBody
+    public String requireBorrowBook(@RequestBody String bookId) {
+        String result = "fail";
+
+        int i = userService.requeirBorrowBook(getUserId(), Integer.valueOf(bookId));
+
+        if (i > 0) {
+            result = "ok";
+        }
+
+        return result;
+    }
+
+    @RequestMapping(value = "/message", method = RequestMethod.GET)
+    public ModelAndView goMessagePage(@RequestParam(value="status", defaultValue="new") String status) {
+        ModelAndView mav = new ModelAndView();
+
+        List<Message> messages = userService.findMessages(getUserId(), status);
+
+        mav.addObject("messages", messages);
+        mav.addObject("status", status);
+        mav.setViewName(Constants.MESSAGE_JSP);
+        return mav;
+    }
+
+    @RequestMapping(value = "/deal_message", method = RequestMethod.POST)
+    public ModelAndView dealMessage(
+            @RequestParam(value = "messageId", defaultValue="0") int messageId,
+            @RequestParam(value = "result", defaultValue="false") boolean result
+            ) {
+        ModelAndView mav = new ModelAndView();
+
+        userService.dealMessage(messageId, result);
+
+        mav.setView(getRedirectView("/user/message"));
         return mav;
     }
 

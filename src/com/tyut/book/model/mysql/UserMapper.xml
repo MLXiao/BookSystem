@@ -27,4 +27,32 @@
     ]]>
   </select>
 
+  <insert id="collectBook" parameterType="Map" >
+    INSERT INTO `book_system`.`book_collection` (`user_id`, `book_id`) 
+        VALUES (#{userId}, #{bookId})
+  </insert>
+
+  <select id="getBookCollection" parameterType="Map" resultType="com.tyut.book.model.BookCollection">
+    SELECT user_id AS 'userId', book_id AS 'bookId', created_time  
+    FROM book_system.book_collection
+    WHERE user_id = #{userId}
+        AND book_id = #{bookId}
+  </select>
+
+  <insert id="createBorrowHistory" parameterType="Map">
+    INSERT INTO `book_system`.`borrow_history`(`borrower_id`, `book_id`)
+        VALUES (#{userId}, #{bookId})
+  </insert>
+
+  <select id="getHistoryId" resultType="int" parameterType="Map">
+    SELECT MAX(id) FROM borrow_history WHERE borrower_id = #{userId} AND book_id = #{bookId}
+  </select>
+
+  <update id="updateHistoryStatus" parameterType="Map">
+  <![CDATA[
+    UPDATE borrow_history set status = #{status}
+    WHERE id = #{historyId}
+  ]]>
+  </update>
+
 </mapper>

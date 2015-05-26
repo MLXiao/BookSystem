@@ -60,6 +60,8 @@
       <tx:method name="add*" propagation="REQUIRED" read-only="false" />
       <tx:method name="update*" propagation="REQUIRED" read-only="false" />
       <tx:method name="save*" propagation="REQUIRED" read-only="false" />
+      <tx:method name="*Borrow*" propagation="REQUIRED" read-only="false" />
+      <tx:method name="deal*" propagation="REQUIRED" read-only="false" />
       <tx:method name="*" propagation="SUPPORTS" read-only="true" />
     </tx:attributes>
   </tx:advice>
@@ -78,15 +80,16 @@
 
   <bean id="userDao" class="com.tyut.book.dao.impl.mybatis.UserDaoImpl" parent="baseDao" />
   <bean id="bookDao" class="com.tyut.book.dao.impl.mybatis.BookDaoImpl" parent="baseDao" />
+  <bean id="messageDao" class="com.tyut.book.dao.impl.mybatis.MessageDaoImpl" parent="baseDao" />
 
   <bean id="userService" class="com.tyut.book.service.impl.UserServiceImpl" >
     <property name="userDao" ref="userDao" />
+    <property name="messageDao" ref="messageDao" />
+    <property name="bookDao" ref="bookDao" />
   </bean>
   <bean id="bookService" class="com.tyut.book.service.impl.BookServiceImpl" >
     <property name="bookDao" ref="bookDao" />
   </bean>
-
-  <bean id="bookController" class="com.tyut.book.controller.BookController" />
 
   <bean class="com.tyut.book.util.SpringUtil" />
 

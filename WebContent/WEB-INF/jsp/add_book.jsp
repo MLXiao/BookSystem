@@ -13,7 +13,7 @@
 </head>
 <body>
 
-  <jsp:include page="common/Header.jsp"></jsp:include>
+  <jsp:include page="common/header.jsp"></jsp:include>
 
   <div class = "content_wrapper">
     <form action="${mt:getFullPath('') }/book/add_book" method="post">

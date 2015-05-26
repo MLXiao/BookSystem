@@ -1,3 +1,6 @@
+<%@page import="com.tyut.book.util.StringUtil"%>
+<%@page import="com.tyut.book.model.Book"%>
+<%@page import="java.util.List"%>
 <%@page import="com.tyut.book.Constants"%>
 <%@page import="com.tyut.book.model.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -11,9 +14,50 @@
   </head>
   <body>
 
-    <jsp:include page="common/Header.jsp"></jsp:include>
+    <jsp:include page="common/header.jsp"></jsp:include>
 
     <jsp:include page="common/login.jsp"></jsp:include>
+
+    <div class = "content_wrapper">
+
+      <jsp:include page="common/top_bar.jsp"></jsp:include>
+
+      <div class="table_wrapper">
+        <input type="hidden" name="action" value="${mt:getFullPath('') }/user/homepage" />
+        <% List<Book> bookList = (List<Book>)request.getAttribute("bookList"); %>
+        <% int size = bookList.size(); %>
+        <% int rowCount = (size - 1) / 4 + 1; %>
+        <% for (int i = 0; i < rowCount; i++) { %>
+
+               <ul>
+
+        <%     for (int j = 0; j < 4; j++) { %>
+        <%         int index = i * 4 + j;      %>
+        <%         if (index < size) { %>
+
+        <%             Book book = bookList.get(index); %>
+
+                       <li onclick="location.href='${mt:getFullPath('') }/book/<%= book.getId() %>'">
+                         <img alt="封面" src="<%= StringUtil.ByteArrayToImgBase4String(book.getCover()) %>" />
+                         <font>书名: <%= book.getName() %></font>
+                         <font>押金: <%= book.getDeposit() %></font>
+                       </li>
+
+        <%         } %>
+
+        <%     } %>
+
+               </ul>
+
+        <% }  %>
+      </div>
+
+    <jsp:include page="common/pagination.jsp" />
+
+    </div>
+
+
+    
 
     <script type="text/javascript">
       if (location.hash == "#login") {

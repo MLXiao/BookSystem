@@ -94,7 +94,6 @@ function login() {
                         tipDialog.content(data[key]);
                         tipDialog.show($verifyCodeWrapper[0]);
                         $verifyCode.focus();
-                        console.debug(loginResult);
                         return;
                     }
 

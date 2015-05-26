@@ -36,5 +36,9 @@ public class UserServiceImplTest {
         }
     }
 
+    @Test
+    public void testisBookCollected() {
+        System.out.println(userService.isBookCollected(3, 2));
+    }
 
 }

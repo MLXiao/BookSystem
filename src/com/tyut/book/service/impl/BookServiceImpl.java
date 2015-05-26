@@ -36,4 +36,20 @@ public class BookServiceImpl implements BookService {
         return bookDao.findMyBook(userId, pagination, loanStatus, keyWord, categoryId);
     }
 
+    @Override
+    public int getAvailableBookCount(int userId, String keyWord, int categoryId) {
+        return bookDao.getAvailableBookCount(userId, keyWord, categoryId);
+    }
+
+    @Override
+    public List<Book> findAvailableBook(int userId, Pagination pagination, String keyWord,
+            int categoryId) {
+        return bookDao.findAvailableBook(userId, pagination, keyWord, categoryId);
+    }
+
+    @Override
+    public Book getById(int id) {
+        return bookDao.getById(id);
+    }
+
 }

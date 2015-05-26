@@ -1,3 +1,4 @@
+<%@page import="com.tyut.book.model.Pagination"%>
 <%@page import="com.tyut.book.model.LoanStatusEnum"%>
 <%@page import="com.tyut.book.util.StringUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -16,32 +17,31 @@
   </head>
   <body>
 
-    <jsp:include page="common/Header.jsp"></jsp:include>
+    <jsp:include page="common/header.jsp"></jsp:include>
 
     <div class = "content_wrapper">
 
-      <div class="top_bar">
-          <% List<Category> allCategory = (List<Category>)session.getAttribute(Constants.ALL_CATEGORY);                        %>
-          <select name="categoryId">
-              <option value="0">请选择图书分类</option>
-          <% for (Category category : allCategory) {                         %>
-              <option value="<%= category.getId() %>"><%=category.getName() %></option>
-          <% }                                                              %>
-        </select>
-        <input type="text" name="keyword" placeholder="请输入关键字" />
-        <img alt="搜索" />
-      </div>
+      <jsp:include page="common/top_bar.jsp" />
 
       <div class="left_menu">
         <ul>
-          <li value="all">全部</li>
-          <li value="loaned">已借出</li>
-          <li value="not_loaned">未借出</li>
-          <li value="loaning" >借阅处理中</li>
+          <li id="all" onclick="goStatus(this)">全部</li>
+          <li id="loaned" onclick="goStatus(this)">已借出</li>
+          <li id="not_loaned" onclick="goStatus(this)">未借出</li>
+          <li id="loaning" onclick="goStatus(this)">借阅处理中</li>
         </ul>
+        <input type="hidden" name="loanStatus" value="<%= request.getAttribute("loanStatus") %>" />
       </div>
+      <script type="text/javascript">
+          function goStatus(obj) {
+              $('input[type=hidden][name=currentPage]').val(1);
+              $('input[type=hidden][name=loanStatus]').val($(obj).attr('id'));
+              fillTable();
+          }
+      </script>
 
       <div class="table_wrapper">
+        <input type="hidden" name="action" value="${mt:getFullPath('') }/book/my_book" />
         <ul>
           <li>封面</li>
           <li>书名</li>
@@ -53,7 +53,7 @@
 
         <% List<Book> bookList = (List<Book>) request.getAttribute("bookList"); %>
         <% for (Book book : bookList) {                                        %>
-        <ul>
+        <ul onclick="location.href='${mt:getFullPath('') }/book/<%= book.getId() %>'">
           <li><img alt="封面" src="<%= StringUtil.ByteArrayToImgBase4String(book.getCover()) %>" /></li>
           <li><%= book.getName() %></li>
           <li><%= book.getAuthor() %></li>
@@ -70,38 +70,10 @@
 
       </div>
 
-      <div class="pagination">
-
-        <% int currentPage = (int)request.getAttribute("currentPage");          %>
-        <% int totalPage = (int)request.getAttribute("totalPage");          %>
-        <% List<Integer> pageList = (List<Integer>)request.getAttribute("pageList");            %>
-        <% if (pageList.size() > 1) {                  %>
-
-          <% if (currentPage > 5)  { %>
-            <a href="#">首页</a>
-          <% }                       %>
-
-          <% if (currentPage > 1)  { %>
-            <a href="#">上一页</a>
-          <% }                        %>
-
-          <% for (int pageNum : pageList) {      %>
-            <a href="#"><%= pageNum %></a>
-          <% }     %>
-
-          <% if (currentPage < totalPage)  { %>
-            <a href="#">下一页</a>
-          <% } %>
-
-          <% if (currentPage <= totalPage - 5)  { %>
-            <a href="#">尾页</a>
-          <% } %>
-          
-        <% }         %>
-      </div>
+      <jsp:include page="common/pagination.jsp" />
 
     </div>
 
-  <script src="${mt:getStaticUrl() }/js/add_book.js"></script>
+  <script src="${mt:getStaticUrl() }/js/my_book.js"></script>
   </body>
 </html>

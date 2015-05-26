@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tyut.book.model.Message">
+
+  <resultMap type="com.tyut.book.model.Message" id="messageMap">
+    <result column="id" property="id"/>
+    <result column="type" property="type"/>
+    <result column="book_id" property="bookId"/>
+    <result column="book_name" property="bookName"/>
+    <result column="sender_id" property="senderId"/>
+    <result column="sender_name" property="senderName"/>
+    <result column="receiver_id" property="receiverId"/>
+    <result column="receiver_name" property="receiverName"/>
+    <result column="is_handled" property="isHandled"/>
+    <result column="comment" property="comment"/>
+    <result column="result" property="result"/>
+    <result column="created_time" property="createdTime"/>
+    <result column="updated_time" property="updatedTime"/>
+  </resultMap>
+
+  <insert id="create" parameterType="Message" >
+    INSERT INTO `book_system`.`message`
+        (`type`, `book_id`, `sender_id`, `receiver_id`)
+        VALUES 
+            (#{type}, #{bookId}, #{senderId}, #{receiverId})
+  </insert>
+
+  <select id="getMessageCount" parameterType="int" resultType="int">
+    SELECT COUNT(*) FROM `book_system`.`message`
+    WHERE `receiver_id` = #{userId}
+        AND `is_handled` = false
+  </select>
+
+  <select id="findMessages" parameterType="Map" resultMap="messageMap">
+    SELECT m.id, m.type, 
+        m.book_id, b.name AS 'book_name',
+        m.sender_id, u1.username AS 'sender_name',
+        m.receiver_id, u2.username AS 'receive_name',
+        m.is_handled, m.comment, m.result,
+        m.created_time, m.updated_time
+    FROM message m
+    JOIN user u1 ON m.sender_id = u1.id
+    JOIN user u2 ON m.receiver_id = u2.id
+    JOIN book b ON m.book_id = b.id
+    WHERE m.receiver_id = #{userId}
+    <if test="status == 'new'">
+        AND is_handled = false
+        ORDER BY created_time DESC
+    </if>
+    <if test="status == 'old'">
+        AND is_handled = true
+        ORDER BY updated_time DESC
+    </if>
+  </select>
+
+  <select id="getById" parameterType="int" resultMap="messageMap">
+    SELECT m.id, m.type, 
+        m.book_id, b.name AS 'book_name',
+        m.sender_id, u1.username AS 'sender_name',
+        m.receiver_id, u2.username AS 'receive_name',
+        m.is_handled, m.comment, m.result,
+        m.created_time, m.updated_time
+    FROM message m
+    JOIN user u1 ON m.sender_id = u1.id
+    JOIN user u2 ON m.receiver_id = u2.id
+    JOIN book b ON m.book_id = b.id
+    WHERE m.id = #{messageId}
+  </select>
+
+  <update id="update" parameterType="com.tyut.book.model.Message">
+    UPDATE message set is_handled = true, result = #{result}
+    WHERE id = #{id}
+  </update>
+
+</mapper>
