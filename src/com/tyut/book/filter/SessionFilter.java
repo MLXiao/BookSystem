@@ -20,7 +20,6 @@ import com.tyut.book.util.SpringUtil;
 
 public class SessionFilter implements Filter {
 
-    private FilterConfig filterConfig;
     private String notNeedLoginPages = "";
 
     public SessionFilter() {

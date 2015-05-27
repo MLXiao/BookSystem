@@ -9,9 +9,12 @@ import com.tyut.book.dao.UserDao;
 import com.tyut.book.exception.ParameterException;
 import com.tyut.book.exception.ServiceException;
 import com.tyut.book.model.Book;
+import com.tyut.book.model.BookCollection;
+import com.tyut.book.model.BorrowHistory;
 import com.tyut.book.model.LoanStatusEnum;
 import com.tyut.book.model.Message;
 import com.tyut.book.model.MessageTypeEnum;
+import com.tyut.book.model.Pagination;
 import com.tyut.book.model.StatusEnum;
 import com.tyut.book.model.User;
 import com.tyut.book.service.UserService;
@@ -133,6 +136,7 @@ public class UserServiceImpl implements UserService {
             break;
         case "confirm_borrow" :
             bookDao.updateStatus(message.getBookId(), LoanStatusEnum.loaned);
+            bookDao.updateCurrentOwner(message.getBookId(), message.getReceiverId());
             historyId = userDao.getHistoryId(message.getReceiverId(), message.getBookId());
             userDao.updateHistoryStatus(historyId, StatusEnum.succeed);
             break;
@@ -143,6 +147,7 @@ public class UserServiceImpl implements UserService {
             break;
         case "confirm_return" :
             bookDao.updateStatus(message.getBookId(), LoanStatusEnum.not_loaned);
+            bookDao.updateCurrentOwner(message.getBookId(), message.getSenderId());
             historyId = userDao.getHistoryId(message.getReceiverId(), message.getBookId());
             userDao.updateHistoryStatus(historyId, StatusEnum.returned);
             break;
@@ -154,6 +159,54 @@ public class UserServiceImpl implements UserService {
         messageDao.update(message);
 
         return true;
+    }
+
+    @Override
+    public int getCollectionCount(int userId) {
+        return userDao.getCollectionCount(userId);
+    }
+
+    @Override
+    public List<BookCollection> findCollections(int userId,
+            Pagination pagination) {
+        return userDao.findCollections(userId, pagination);
+    }
+
+    @Override
+    public int deleteCollection(int bookId) {
+        return userDao.deleteCollection(bookId);
+    }
+
+    @Override
+    public int getHistoryCount(int userId, String status) {
+        return userDao.getHistoryCount(userId, status);
+    }
+
+    @Override
+    public List<BorrowHistory> findBorrowHistory(int userId,
+            Pagination pagination, String status) {
+        return userDao.findBorrowHistory(userId, pagination, status);
+    }
+
+    @Override
+    public int returnBook(int userId, int bookId) {
+        int result = 0;
+
+        Book book = bookDao.getById(bookId);
+
+        Message message = new Message();
+        message.setSenderId(userId);
+        message.setReceiverId(book.getOwnerId());
+        message.setBookId(bookId);
+        message.setType(MessageTypeEnum.return_info);
+
+        result = messageDao.create(message);
+
+        int historyId = userDao.getHistoryId(userId, bookId);
+
+        result = userDao.updateHistoryStatus(historyId, StatusEnum.returning);
+
+        return result;
     }
 
 }

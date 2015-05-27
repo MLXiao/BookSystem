@@ -7,6 +7,9 @@ public class BorrowHistory {
     private int id;
     private int borrowerId;
     private int bookId;
+    private String bookName;
+    private byte[] cover;
+    private String author;
     private StatusEnum status;
     private Date createdTime;
     private Date updatedTime;
@@ -30,7 +33,7 @@ public class BorrowHistory {
     public Date getUpdatedTime() {
         return updatedTime;
     }
-    public boolean isDeleted() {
+    public boolean getIsDeleted() {
         return isDeleted;
     }
     public void setId(int id) {
@@ -51,8 +54,26 @@ public class BorrowHistory {
     public void setUpdatedTime(Date updatedTime) {
         this.updatedTime = updatedTime;
     }
-    public void setDeleted(boolean isDeleted) {
+    public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+    public byte[] getCover() {
+        return cover;
+    }
+    public void setCover(byte[] cover) {
+        this.cover = cover;
+    }
+    public String getAuthor() {
+        return author;
+    }
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+    public String getBookName() {
+        return bookName;
+    }
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
     }
 
 }

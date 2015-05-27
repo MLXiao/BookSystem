@@ -4,7 +4,10 @@ import java.util.List;
 
 import com.tyut.book.exception.ParameterException;
 import com.tyut.book.exception.ServiceException;
+import com.tyut.book.model.BookCollection;
+import com.tyut.book.model.BorrowHistory;
 import com.tyut.book.model.Message;
+import com.tyut.book.model.Pagination;
 import com.tyut.book.model.User;
 
 public interface UserService {
@@ -22,5 +25,20 @@ public interface UserService {
     public List<Message> findMessages(int userId, String status);
 
     public boolean dealMessage(int messageId, boolean result);
+
+    public int getCollectionCount(int userId);
+
+    public List<BookCollection> findCollections(int userId,
+            Pagination pagination);
+
+    public int deleteCollection(int bookId);
+
+    public int getHistoryCount(int userId, String status);
+
+    public List<BorrowHistory> findBorrowHistory(int userId,
+            Pagination pagination, String status);
+
+    public int returnBook(int userId, int bookId);
+
 
 }

@@ -20,6 +20,27 @@
     <result column="is_deleted" property="isDeleted"/>
   </resultMap>
 
+  <resultMap type="com.tyut.book.model.BookCollection" id="collectionMap">
+    <result column="user_id" property="userId"/>
+    <result column="book_id" property="bookId"/>
+    <result column="book_name" property="bookName"/>
+    <result column="cover" property="cover"/>
+    <result column="created_time" property="createdTime"/>
+  </resultMap>
+
+  <resultMap type="com.tyut.book.model.BorrowHistory" id="historyMap">
+    <result column="id" property="id"/>
+    <result column="borrower_id" property="borrowerId"/>
+    <result column="book_id" property="bookId"/>
+    <result column="book_name" property="bookName"/>
+    <result column="cover" property="cover"/>
+    <result column="author" property="author"/>
+    <result column="status" property="status"/>
+    <result column="created_time" property="createdTime"/>
+    <result column="updated_time" property="updatedTime"/>
+    <result column="is_deleted" property="isDeleted"/>
+  </resultMap>
+
   <select id="findByName" parameterType="String" resultMap="userMap">
     <![CDATA[
       SELECT * FROM `book_system`.`user`
@@ -54,5 +75,41 @@
     WHERE id = #{historyId}
   ]]>
   </update>
+
+  <select id="getCollectionCount" parameterType="int" resultType="int">
+    SELECT COUNT(*) FROM book_collection
+    WHERE user_id = #{userId}
+  </select>
+
+  <select id="findCollections" parameterType="Map" resultMap="collectionMap">
+    SELECT bc.user_id, bc.book_id AS 'book_id', 
+        b.name AS 'book_name', b.cover, bc.created_time
+    FROM book_collection bc
+    JOIN book b ON bc.book_id = b.id
+    WHERE bc.user_id = #{userId}
+    LIMIT #{offSet}, #{pageSize}
+  </select>
+
+  <delete id="deleteCollection" parameterType="int" >
+    DELETE FROM book_collection
+    WHERE book_id = #{bookId}
+  </delete>
+
+  <select id="getHistoryCount" parameterType="Map" resultType="int">
+    SELECT count(*) FROM borrow_history
+    WHERE borrower_id = #{userId}
+      AND status = #{status}
+  </select>
+
+  <select id="findBorrowHistory" parameterType="Map" resultMap="historyMap">
+    SELECT bs.id, bs.borrower_id, bs.book_id,
+        b.name AS book_name, b.cover, b.author, bs.status,
+        bs.created_time, bs.updated_time, bs.is_deleted
+    FROM borrow_history bs
+        JOIN book b ON bs.book_id = b.id
+    WHERE bs.borrower_id = #{userId}
+        AND status = #{status}
+    LIMIT #{offSet}, #{pageSize}
+  </select>
 
 </mapper>

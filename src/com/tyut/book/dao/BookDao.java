@@ -29,4 +29,6 @@ public interface BookDao {
 
     public int updateStatus(int bookId, LoanStatusEnum status);
 
+    public int updateCurrentOwner(int bookId, int userId);
+
 }

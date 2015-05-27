@@ -144,4 +144,9 @@
     WHERE id = #{bookId}
   </update>
 
+  <update id="updateCurrentOwner" parameterType="Map">
+    UPDATE book SET current_owner_id = #{userId}
+    WHERE id = #{bookId}
+  </update>
+
 </mapper>

@@ -1,11 +1,13 @@
 package com.tyut.book.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +19,8 @@ import com.tyut.book.Constants;
 import com.tyut.book.exception.ParameterException;
 import com.tyut.book.exception.ServiceException;
 import com.tyut.book.model.Book;
+import com.tyut.book.model.BookCollection;
+import com.tyut.book.model.BorrowHistory;
 import com.tyut.book.model.Message;
 import com.tyut.book.model.Pagination;
 import com.tyut.book.model.User;
@@ -149,6 +153,67 @@ public class UserController extends BaseController {
         userService.dealMessage(messageId, result);
 
         mav.setView(getRedirectView("/user/message"));
+        return mav;
+    }
+
+    @RequestMapping(value = "my_collect", method = RequestMethod.GET)
+    public ModelAndView goMyCollectPage(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage) {
+        ModelAndView mav = new ModelAndView();
+
+        int totalCount = userService.getCollectionCount(getUserId());
+
+        Pagination pagination = new Pagination();
+        pagination.setTotalCount(totalCount);
+        pagination.setCurrentPage(currentPage);
+
+        List<BookCollection> collections = userService.findCollections(getUserId(), pagination);
+
+        mav.addObject("pagination", pagination);
+        mav.addObject("collections", collections);
+        mav.setViewName(Constants.MY_COLLECT);
+        return mav;
+    }
+
+    @RequestMapping(value = "/cancel_collect/{bookId}", method = RequestMethod.GET)
+    public ModelAndView cancelCollect(@PathVariable int bookId) {
+        ModelAndView mav = new ModelAndView();
+
+        userService.deleteCollection(bookId);
+
+        mav.setView(getRedirectView("/user/my_collect"));
+        return mav;
+    }
+
+    @RequestMapping(value="/my_borrow", method = RequestMethod.GET)
+    public ModelAndView goMyBorrowPage(
+            @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(value = "loanStatus", defaultValue = "succeed") String status
+            ) {
+        ModelAndView mav = new ModelAndView();
+
+        int totalCount = userService.getHistoryCount(getUserId(), status);
+        Pagination pagination = new Pagination();
+        pagination.setTotalCount(totalCount);
+        pagination.setCurrentPage(currentPage);
+
+        List<BorrowHistory> histories = new ArrayList<BorrowHistory>();
+        histories = userService.findBorrowHistory(getUserId(), pagination, status);
+
+        mav.addObject("pagination", pagination);
+        mav.addObject("loanStatus", status);
+        mav.addObject("histories", histories);
+
+        mav.setViewName(Constants.MY_BORROW);
+        return mav;
+    }
+
+    @RequestMapping(value="/return_book", method = RequestMethod.GET)
+    public ModelAndView returnBook(@RequestParam(value="bookId", defaultValue = "0") int bookId) {
+        ModelAndView mav = new ModelAndView();
+
+        userService.returnBook(getUserId(), bookId);
+
+        mav.setView(getRedirectView("/user/my_borrow"));
         return mav;
     }
 

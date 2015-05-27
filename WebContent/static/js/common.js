@@ -18,7 +18,7 @@ function fillTable() {
 
     requestUrl = requestUrl + '?currentPage=' + currentPage;
 
-    if (categoryId != '0') {
+    if (categoryId != '0' && categoryId != null && categoryId != undefined && keyWord != '') {
         requestUrl = requestUrl + '&categoryId=' + categoryId;
     }
 
