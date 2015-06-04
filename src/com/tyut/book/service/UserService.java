@@ -40,5 +40,11 @@ public interface UserService {
 
     public int returnBook(int userId, int bookId);
 
+    public User register(User user);
+
+    public User getUserById(int id);
+
+    public int update(User user);
+
 
 }

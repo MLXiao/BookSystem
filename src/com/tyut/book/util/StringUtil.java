@@ -138,6 +138,7 @@ public class StringUtil {
     }
 
     public static String ByteArrayToImgBase4String(byte[] bytes) {
+        String s = new BASE64Encoder().encode(bytes);
         return "data:image/png;base64," + new BASE64Encoder().encode(bytes);
     }
 
@@ -154,7 +155,7 @@ public class StringUtil {
         if (keyWord.contains("\\")) {
             keyWord = replace(keyWord, "_", "\\\\");
         }
-        return keyWord;
+        return "%" + keyWord + "%";
     }
 
 }

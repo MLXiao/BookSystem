@@ -33,6 +33,12 @@
         VALUES (#{name}, #{categoryId}, #{ownerId}, #{currentOwnerId}, #{deposit}, #{author}, #{cover}, #{description});
     ]]>
   </insert>
+  
+  <update id="updateBook" parameterType="Book">
+      UPDATE book
+      SET name = #{name}, category_id = #{categoryId}, deposit = #{deposit}, author = #{author}, cover = #{cover}, description = #{description}
+      WHERE id = #{id}
+  </update>
 
   <select id="findAllCategory" resultMap="categoryMap">
     <![CDATA[
@@ -51,6 +57,7 @@
     SELECT count(*) 
     FROM `book_system`.`book`
     WHERE `name` LIKE #{keyWord}
+        AND is_deleted = false
     <if test="userId != 0">
         AND `owner_id` = #{userId}
     </if>
@@ -76,6 +83,7 @@
         JOIN category c
             ON b.category_id = c.id
     WHERE b.name Like #{keyWord}
+        AND b.is_deleted = false
     <if test="userId != 0">
         AND b.owner_id = #{userId}
     </if>
@@ -92,6 +100,7 @@
     SELECT count(*) 
     FROM `book_system`.`book`
     WHERE  `name` LIKE #{keyWord}
+        AND is_deleted = false
     <if test="userId != 0">
         AND `owner_id` != #{userId}
     </if>
@@ -114,6 +123,7 @@
         JOIN category c
             ON b.category_id = c.id
     WHERE b.name Like #{keyWord}
+        AND b.is_deleted = false
     <if test="userId != 0">
         AND b.owner_id != #{userId}
     </if>
@@ -147,6 +157,11 @@
   <update id="updateCurrentOwner" parameterType="Map">
     UPDATE book SET current_owner_id = #{userId}
     WHERE id = #{bookId}
+  </update>
+  
+  <update id="deleteBook" parameterType="int">
+    UPDATE book SET is_deleted = true
+    WHERE id = #{id}
   </update>
 
 </mapper>

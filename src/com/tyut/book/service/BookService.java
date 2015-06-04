@@ -24,4 +24,8 @@ public interface BookService {
 
     public Book getById(int id);
 
+    public int updateBook(Book book);
+
+    public int deleteBook(int id);
+
 }

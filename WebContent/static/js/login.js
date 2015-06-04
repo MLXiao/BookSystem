@@ -1,6 +1,5 @@
 function login() {
     $('.login').css("display", "block");
-
     var fullPathPrefix = $('input[name=fullPathPrefix]').val();
     var staticUrl = $('input[name=staticUrl]').val();
     var $loginBtn = $('#loginBtn');
@@ -13,9 +12,16 @@ function login() {
     var $verifyCodeImg = $('.verify_code_wrapper img');
     var $loginErrorMessage = $('.login_error_message');
 
+    var scroll = function() {
+        return false;
+    }
+
+    $(window).bind("wheel", scroll);
+
     $('.login_close').on('click', function() {
         tipDialog.close();
         $('.login').css("display", "none");
+        $(window).unbind("wheel", scroll);
     });
 
     var tipDialog = dialog({

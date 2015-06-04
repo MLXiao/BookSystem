@@ -28,6 +28,9 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
     private static final String SQL_ID_DELETE_COLLECTION = ".deleteCollection";
     private static final String SQL_ID_GET_HISTORY_COUNT = ".getHistoryCount";
     private static final String SQL_ID_FIND_BORROW_HISTORY = ".findBorrowHistory";
+    private static final String SQL_ID_INSERT = ".insert";
+    private static final String SQL_ID_GEI_USER_BY_ID = ".getUserById";
+    private static final String SQL_ID_UPDATE = ".update";
 
     @Override
     public User findByName(String username) {
@@ -115,6 +118,22 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
         paramMap.put("pageSize", pagination.getPageSize());
         resultList = getSqlSession().selectList(CLASS_NAME + SQL_ID_FIND_BORROW_HISTORY, paramMap);
         return resultList;
+    }
+
+    @Override
+    public int insert(User user) {
+        getSqlSession().insert(CLASS_NAME + SQL_ID_INSERT, user);
+        return user.getId();
+    }
+
+    @Override
+    public User getUserById(int id) {
+        return getSqlSession().selectOne(CLASS_NAME + SQL_ID_GEI_USER_BY_ID, id);
+    }
+
+    @Override
+    public int update(User user) {
+        return getSqlSession().update(CLASS_NAME + SQL_ID_UPDATE, user);
     }
 
 }

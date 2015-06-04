@@ -27,6 +27,7 @@ import com.tyut.book.model.User;
 import com.tyut.book.model.VerificationCode;
 import com.tyut.book.service.BookService;
 import com.tyut.book.service.UserService;
+import com.tyut.book.util.StringUtil;
 
 @Controller
 @RequestMapping(value = Constants.APP_URL_USER_PREFIX)
@@ -83,6 +84,26 @@ public class UserController extends BaseController {
             resultMap.put("service", se.getMessage());
         }
         return resultMap;
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public ModelAndView goRegisterPage() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName(Constants.REGISTER);
+        return mav;
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ModelAndView register(User user, @RequestParam(value="avatarBase64") String avatarBase64) {
+        ModelAndView mav = new ModelAndView();
+
+        user.setAvatar(StringUtil.base64ToByteArray(avatarBase64));
+        userService.register(user);
+
+        super.setSessionAttribute(Constants.USER, user);
+
+        mav.setView(getRedirectView("/user/homepage"));
+        return mav;
     }
 
     @RequestMapping(value = "/update_vcode", method = RequestMethod.POST)
@@ -207,13 +228,50 @@ public class UserController extends BaseController {
         return mav;
     }
 
-    @RequestMapping(value="/return_book", method = RequestMethod.GET)
+    @RequestMapping(value = "/return_book", method = RequestMethod.GET)
     public ModelAndView returnBook(@RequestParam(value="bookId", defaultValue = "0") int bookId) {
         ModelAndView mav = new ModelAndView();
 
         userService.returnBook(getUserId(), bookId);
 
         mav.setView(getRedirectView("/user/my_borrow"));
+        return mav;
+    }
+
+    @RequestMapping(value = "/show_user/{id}", method = RequestMethod.GET)
+    public ModelAndView goShowUserPage(@PathVariable int id) {
+        ModelAndView mav = new ModelAndView();
+
+        User user = userService.getUserById(id);
+        mav.addObject("user", user);
+
+        mav.setViewName(Constants.SHOW_USER);
+        return mav;
+    }
+
+    @RequestMapping(value = "/edit_user/{id}", method = RequestMethod.GET)
+    public ModelAndView goEditUserPage(@PathVariable int id) {
+        ModelAndView mav = new ModelAndView();
+
+        User user = userService.getUserById(id);
+        mav.addObject("user", user);
+
+        mav.setViewName(Constants.EDIT_USER);
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/edit_user", method = RequestMethod.POST)
+    public ModelAndView editUser(User user, @RequestParam(value="avatarBase64") String avatarBase64) {
+        ModelAndView mav = new ModelAndView();
+
+        user.setAvatar(StringUtil.base64ToByteArray(avatarBase64));
+
+        userService.update(user);
+
+        super.setSessionAttribute(Constants.USER, user);
+
+        mav.setView(getRedirectView("/user/show_user/" + user.getId()));
         return mav;
     }
 

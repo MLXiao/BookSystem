@@ -27,6 +27,8 @@ public class BookDaoImpl extends SqlSessionDaoSupport implements BookDao {
     private static final String SQL_ID_GET_BY_ID = ".getById";
     private static final String SQL_ID_UPDATE_STATUS = ".updateStatus";
     private static final String SQL_ID_UPDATE_CURRENT_OWNER = ".updateCurrentOwner";
+    private static final String SQL_ID_UPDATE_BOOK = ".updateBook";
+    private static final String SQL_ID_DELETE_BOOK = ".deleteBook";
 
     @Override
     public int create(Book book) {
@@ -114,6 +116,17 @@ public class BookDaoImpl extends SqlSessionDaoSupport implements BookDao {
         paramMap.put("bookId", bookId);
         paramMap.put("userId", userId);
         return getSqlSession().update(CLASS_NAME + SQL_ID_UPDATE_CURRENT_OWNER, paramMap);
+    }
+
+    @Override
+    public int updateBook(Book book) {
+        getSqlSession().update(CLASS_NAME + SQL_ID_UPDATE_BOOK, book);
+        return book.getId();
+    }
+
+    @Override
+    public int deleteBook(int id) {
+        return getSqlSession().update(CLASS_NAME + SQL_ID_DELETE_BOOK, id);
     }
 
 }

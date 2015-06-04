@@ -29,19 +29,45 @@ public class BookController extends BaseController {
     @RequestMapping(value = "/add_book", method = RequestMethod.GET)
     public ModelAndView goAddBookPage() {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName(Constants.ADD_BOOK_JSP);
+        mav.setViewName(Constants.SAVE_BOOK_JSP);
         return mav;
     }
 
-    @RequestMapping(value = "/add_book", method = RequestMethod.POST)
-    public ModelAndView AddBook(Book book, @RequestParam(value="coverBase64") String coverBase64) {
+    @RequestMapping(value = "/edit_book/{id}", method = RequestMethod.GET)
+    public ModelAndView goEditBookPage(@PathVariable int id) {
         ModelAndView mav = new ModelAndView();
+        Book book = bookService.getById(id);
+        mav.addObject("book", book);
+        mav.setViewName(Constants.SAVE_BOOK_JSP);
+        return mav;
+    }
+
+    @RequestMapping(value = "/save_book", method = RequestMethod.POST)
+    public ModelAndView saveBook(Book book, @RequestParam(value="coverBase64") String coverBase64) {
+        ModelAndView mav = new ModelAndView();
+        System.out.println(book.getId());
         book.setOwnerId(super.getUserId());
         book.setCurrentOwnerId(super.getUserId());
         book.setCover(StringUtil.base64ToByteArray(coverBase64));
-        bookService.addBook(book);
-        super.setSessionAttribute(Constants.FLASH_MESSAGE, "上架成功!");
-        mav.setView(super.getRedirectView("/user/homepage"));
+
+        if (book.getId() == 0) {
+            bookService.addBook(book);
+            super.setSessionAttribute(Constants.FLASH_MESSAGE, "上架成功!");
+        } else {
+            bookService.updateBook(book);
+            super.setSessionAttribute(Constants.FLASH_MESSAGE, "修改成功!");
+        }
+
+        mav.setView(super.getRedirectView("/book/my_book"));
+        return mav;
+    }
+
+    @RequestMapping(value = "/delete_book", method = RequestMethod.POST)
+    public ModelAndView deleteBook(@RequestParam(value="id") int id) {
+        ModelAndView mav = new ModelAndView();
+        bookService.deleteBook(id);
+        super.setSessionAttribute(Constants.FLASH_MESSAGE, "下架成功!");
+        mav.setView(super.getRedirectView("/book/my_book"));
         return mav;
     }
 

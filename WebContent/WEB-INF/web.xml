@@ -25,7 +25,7 @@
   </context-param>
   <context-param>
     <param-name>notNeedLoginPages</param-name>
-    <param-value>/page/user/homepage,/page/user/login,/page/user/update_vcode</param-value>
+    <param-value>/page/user/homepage,/page/user/login,/page/user/update_vcode,/page/user/register</param-value>
   </context-param>
   <listener>
     <display-name>contextLoaderListener</display-name>

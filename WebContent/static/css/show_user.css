@@ -1,0 +1,15 @@
+.basic_info {
+  font-size: 17pt;
+  margin-left: 380px;
+  margin-top: 60px;
+  display: inline-block;
+}
+
+.user_avatar {
+  display: inline-block;
+  width: 120px;
+  height: 120px;
+  position: relative;
+  left: 60px;
+  top: -116px;
+}

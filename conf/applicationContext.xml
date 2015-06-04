@@ -63,6 +63,7 @@
       <tx:method name="*Borrow*" propagation="REQUIRED" read-only="false" />
       <tx:method name="deal*" propagation="REQUIRED" read-only="false" />
       <tx:method name="return*" propagation="REQUIRED" read-only="false" />
+      <tx:method name="register*" propagation="REQUIRED" read-only="false" />
       <tx:method name="*" propagation="SUPPORTS" read-only="true" />
     </tx:attributes>
   </tx:advice>

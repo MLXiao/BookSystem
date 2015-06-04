@@ -52,4 +52,14 @@ public class BookServiceImpl implements BookService {
         return bookDao.getById(id);
     }
 
+    @Override
+    public int updateBook(Book book) {
+        return bookDao.updateBook(book);
+    }
+
+    @Override
+    public int deleteBook(int id) {
+        return bookDao.deleteBook(id);
+    }
+
 }

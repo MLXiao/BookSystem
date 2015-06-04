@@ -5,10 +5,13 @@
 <%@ taglib prefix="mt" uri="/myTags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<% SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="${mt:getStaticUrl() }/css/message.css" />
   <title>消息中心</title>
 </head>
   <body>
@@ -18,10 +21,10 @@
 
       <% String status = request.getAttribute("status").toString(); %>
 
-      <div class = "menu_wrapper">
+      <div class = "left_menu">
         <ul>
-            <li onclick="location.href='${mt:getFullPath('') }/user/message?status=new'">新消息</li>
-            <li onclick="location.href='${mt:getFullPath('') }/user/message?status=old'">消息历史</li>
+            <li id="new" onclick="location.href='${mt:getFullPath('') }/user/message?status=new'">新消息</li>
+            <li id="old" onclick="location.href='${mt:getFullPath('') }/user/message?status=old'">消息历史</li>
         </ul>
       </div>
 
@@ -31,10 +34,15 @@
 
         <% if (status.equals("new")) { %>
 
+            <script>
+                $('#new').css('background-color','rgb(133, 195, 130)');
+                $('#new').css('color','#FFF');
+            </script>
+
             <% for (Message message : messages) { %>
 
               <div class="message">
-
+                <span><%= sdf.format(message.getCreatedTime()) %></span>
                 <form id="messageForm" action="${mt:getFullPath('') }/user/deal_message" method="post">
                   <input type="hidden"  name="messageId" value="<%=message.getId() %>" />
                   <input type="hidden"  name="result" />
@@ -44,10 +52,9 @@
               <% }  %>
 
               <% if (message.getType() == MessageTypeEnum.borrow_info) { %>
-                   <span><%= message.getCreatedTime() %></span>
                    <span>
                      <font>用户</font>
-                     <a href="javascropt:void(0)"><%= message.getSenderName() %></a>
+                     <a href="${mt:getFullPath('') }/user/show_user/<%= message.getSenderId() %>"><%= message.getSenderName() %></a>
                      <font>请求借阅你的图书</font>
                      <a href="${mt:getFullPath('') }/book/<%= message.getBookId() %>" ><%= message.getBookName() %></a>
                    </span>
@@ -58,10 +65,9 @@
               <% }  %>
 
               <% if (message.getType() == MessageTypeEnum.confirm_borrow) { %>
-                   <span><%= message.getCreatedTime() %></span>
                    <span>
                      <font>用户</font>
-                     <a href="javascropt:void(0)"><%= message.getSenderName() %></a>
+                     <a href="${mt:getFullPath('') }/user/show_user/<%= message.getSenderId() %>"><%= message.getSenderName() %></a>
                      <font>同意了你对图书</font>
                      <a href="${mt:getFullPath('') }/book/<%= message.getBookId() %>" ><%= message.getBookName() %></a>
                      <font>的借阅请求. 收到书籍后请</font>
@@ -70,10 +76,9 @@
               <% }  %>
               
               <% if (message.getType() == MessageTypeEnum.refuse_borrow) { %>
-                   <span><%= message.getCreatedTime() %></span>
                    <span>
                      <font>用户</font>
-                     <a href="javascropt:void(0)"><%= message.getSenderName() %></a>
+                     <a href="${mt:getFullPath('') }/user/show_user/<%= message.getSenderId() %>"><%= message.getSenderName() %></a>
                      <font>拒绝了你对图书</font>
                      <a href="${mt:getFullPath('') }/book/<%= message.getBookId() %>"><%= message.getBookName() %></a>
                      <font>的借阅请求</font>
@@ -82,9 +87,8 @@
               <% }  %>
 
               <% if (message.getType() == MessageTypeEnum.return_info) { %>
-                   <span><%= message.getCreatedTime() %></span>
                    <font>用户</font>
-                   <a href="javascropt:void(0)"><%= message.getSenderName() %></a>
+                   <a href="${mt:getFullPath('') }/user/show_user/<%= message.getSenderId() %>"><%= message.getSenderName() %></a>
                    <font>请求归还图书</font>
                    <a href="${mt:getFullPath('') }/book/<%= message.getBookId() %>" ><%= message.getBookName() %></a>
                    <font>收到图书后请</font>
@@ -92,17 +96,21 @@
               <% }  %>
 
               <% if (message.getType() == MessageTypeEnum.confirm_return) { %>
-                   <span><%= message.getCreatedTime() %></span>
                    <font>图书</font>
                    <a href="${mt:getFullPath('') }/book/<%= message.getBookId() %>" ><%= message.getBookName() %></a>
                    <font>已经成功归还至用户</font>
-                   <a href="javascropt:void(0)" ><%= message.getSenderName() %></a>
+                   <a href="${mt:getFullPath('') }/user/show_user/<%= message.getSenderId() %>" ><%= message.getSenderName() %></a>
                    <button class="btn_yes">确认</button>
               <% }  %>
               </div>
           <% } %>
 
         <% } else {               %>
+
+            <script>
+                $('#old').css('background-color','rgb(133, 195, 130)');
+                $('#old').css('color','#FFF');
+            </script>
 
             <% for (Message message : messages) { %>
               <div class="message">
@@ -111,14 +119,14 @@
               <% }  %>
 
               <% if (message.getType() == MessageTypeEnum.borrow_info) { %>
-                   <span><%= message.getUpdatedTime() %></span>
+                   <span><%= sdf.format(message.getUpdatedTime()) %></span>
                    <span>
                    <% if(message.getResult() == true) { %>
                      <font>你同意了用户</font>
                    <% } else { %>
                      <font>你拒绝了用户</font>
                    <% }%>
-                     <a href="javascropt:void(0)"><%= message.getSenderName() %></a>
+                     <a href="${mt:getFullPath('') }/user/show_user/<%= message.getSenderId() %>"><%= message.getSenderName() %></a>
                      <font>对图书</font>
                      <a href="${mt:getFullPath('') }/book/<%= message.getBookId() %>" ><%= message.getBookName() %></a>
                      <font>的借阅请求</font>
@@ -126,7 +134,7 @@
               <% }  %>
 
               <% if (message.getType() == MessageTypeEnum.confirm_borrow) { %>
-                   <span><%= message.getCreatedTime() %></span>
+                   <span><%= sdf.format(message.getCreatedTime()) %></span>
                    <span>
                      <font>图书</font>
                      <a href="${mt:getFullPath('') }/book/<%= message.getBookId() %>" ><%= message.getBookName() %></a>
@@ -135,10 +143,10 @@
               <% }  %>
 
               <% if (message.getType() == MessageTypeEnum.refuse_borrow) { %>
-                   <span><%= message.getCreatedTime() %></span>
+                   <span><%= sdf.format(message.getCreatedTime()) %></span>
                    <span>
                      <font>用户</font>
-                     <a href="javascropt:void(0)"><%= message.getSenderName() %></a>
+                     <a href="${mt:getFullPath('') }/user/show_user/<%= message.getSenderId() %>"><%= message.getSenderName() %></a>
                      <font>拒绝了你对图书</font>
                      <a href="${mt:getFullPath('') }/book/<%= message.getBookId() %>" ><%= message.getBookName() %></a>
                      <font>的借阅请求</font>
@@ -146,7 +154,7 @@
               <% }  %>
 
               <% if (message.getType() == MessageTypeEnum.return_info) { %>
-                   <span><%= message.getCreatedTime() %></span>
+                   <span><%= sdf.format(message.getCreatedTime()) %></span>
                    <font>用户</font>
                    <a href="javascropt:void(0)"><%= message.getSenderName() %></a>
                    <font>已归还图书</font>
@@ -154,7 +162,7 @@
               <% }  %>
 
               <% if (message.getType() == MessageTypeEnum.confirm_return) { %>
-                   <span><%= message.getCreatedTime() %></span>
+                   <span><%= sdf.format(message.getCreatedTime()) %></span>
                    <font>图书</font>
                    <a onclick="location.href='${mt:getFullPath('') }/book/<%= message.getBookId() %>'"><%= message.getBookName() %></a>
                    <font>已经成功归还至用户</font>

@@ -14,7 +14,7 @@ a {
 }
 
 .ui-dialog-body {
-  padding: 10px;
+  padding: 8px;
 }
 
 .header_wrapper {
@@ -33,7 +33,7 @@ a {
 }
 
 .header_logo font {
-  margin-left: 40px;
+  margin-left: 35px;
 }
 
 .login_link {
@@ -45,31 +45,130 @@ a {
   display: inline-block;
   float: right;
   height: 40px;
+  line-height: 40px;
 }
 
 .Header_right img {
-  height: 40px;
-  width: 40px;
+  height: 32px;
+  width: 32px;
+  display: inline-block;
 }
 
-.Header_right a, .Header_right span {
+.avatar {
   position: relative;
-  top: -12px;
+  top: 4px;
+  right: 30px;
+}
+
+.username_link {
+  position: relative;
+  top: -5px;
+  right: 30px;
+}
+
+.message_span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  top: 5px;
+  right: 20px;
+}
+
+.message_span font {
+  display: inline-block;
+  position: relative;
+  top: -11px;
+}
+
+.operation_menu {
+  position: relative;
+  top: 3px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.logout {
+  position: relative;
+  top: -5px;
 }
 
 .user_operation_detail {
-  background-color: #CDB3ED;
+  background-color: #666666;
   position: absolute;
-  right: 40px;
+  top: 40px;
+  right: 54px;
   width: 100px;
-  height: 200px;
+  height: 160px;
+  color: #FFF;
+  text-align: center;
+}
+
+.user_operation_detail div {
+  cursor: pointer;
+}
+
+.user_operation_detail div:HOVER {
+  background-color: #E5DFDF;
+  color: #000;
 }
 
 .content_wrapper {
   overflow: hidden;
   width: 1280px;
   top:40px;
-  background-color: rgb(231, 237, 235);
   margin-left: auto;
   margin-right: auto;
+  padding-top: 40px;
+}
+
+.header_logo {
+  font-size: 24px;
+  color: rgb(49, 66, 102);
+  cursor: pointer;
+  background: url(../images/logo.png) no-repeat;
+}
+
+.current_location {
+  margin-left: 30px;
+  color: rgb(124, 54, 54);
+}
+
+.top_bar input {
+  width: 370px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 15px;
+  border: 1px solid #D8D8D8;
+  text-indent: 10px;
+}
+
+.top_bar {
+  margin-top: 20px;
+  width: 502px;
+  height: 35px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.top_bar select {
+  height: 35px;
+  border: 1px solid #D8D8D8;
+  color: rgb(129, 129, 14);
+  margin-right: 5px;
+}
+
+.top_bar img {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  right: 442px;
+  top: 65px;
+  cursor: pointer;
+}
+
+.Header_right .back {
+  position: relative;
+  right: 60px;
+  top: 4px;
+  cursor: pointer;
 }

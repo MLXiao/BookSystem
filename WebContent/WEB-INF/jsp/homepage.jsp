@@ -11,6 +11,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>图书分享平台</title>
+    <link rel="stylesheet" href="${mt:getStaticUrl() }/css/homepage.css" />
   </head>
   <body>
 
@@ -37,9 +38,11 @@
 
         <%             Book book = bookList.get(index); %>
 
-                       <li onclick="location.href='${mt:getFullPath('') }/book/<%= book.getId() %>'">
-                         <img alt="封面" src="<%= StringUtil.ByteArrayToImgBase4String(book.getCover()) %>" />
+                       <li>
+                         <img title="<%= book.getDescription()%>" onclick="location.href='${mt:getFullPath('') }/book/<%= book.getId() %>'" alt="封面" src="<%= StringUtil.ByteArrayToImgBase4String(book.getCover()) %>" />
+                         <br>
                          <font>书名: <%= book.getName() %></font>
+                         <br>
                          <font>押金: <%= book.getDeposit() %></font>
                        </li>
 

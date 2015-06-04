@@ -32,6 +32,7 @@ function collect(obj) {
     }
 
     var fullPathPrefix = $('input[name=fullPathPrefix]').val();
+    var staticUrl =  $('input[name=staticUrl]').val();
     var bookId = $('input[type=hidden][name=bookId]').val();
 
     $.ajax({
@@ -43,6 +44,8 @@ function collect(obj) {
         success: function(data) {
             if (data == "ok") {
                 $(obj).attr("alt", "已收藏")
+                $('.collect font').text("已收藏")
+                $(obj).attr("src", staticUrl + "/images/collected.png");
             } else {
                 alert("收藏失败!");
             }

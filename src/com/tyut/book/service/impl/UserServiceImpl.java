@@ -209,4 +209,22 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    @Override
+    public User register(User user) {
+        String password = StringUtil.toMD5String(user.getPassword());
+        user.setPassword(password);
+        int id = userDao.insert(user);
+        return userDao.getUserById(id);
+    }
+
+    @Override
+    public User getUserById(int id) {
+        return userDao.getUserById(id);
+    }
+
+    @Override
+    public int update(User user) {
+        return userDao.update(user);
+    }
+
 }

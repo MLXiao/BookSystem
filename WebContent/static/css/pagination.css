@@ -1,0 +1,18 @@
+.pagination {
+  text-align: center;
+  height: 40px; 
+  line-height: 40px;
+  font-size: 20px;
+  margin-bottom: 40px;
+}
+
+.pagination input[type=text] {
+  width: 20px;
+}
+
+.pagination a {
+}
+
+.pagination a:HOVER {
+  color: rgb(228, 109, 36);
+}

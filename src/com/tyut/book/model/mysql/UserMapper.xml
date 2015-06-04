@@ -9,7 +9,7 @@
     <result column="password" property="password"/>
     <result column="nickname" property="nickname"/>
     <result column="role" property="role"/>
-    <result column="phomeNum" property="phomeNum"/>
+    <result column="phome_num" property="phomeNum"/>
     <result column="email" property="email"/>
     <result column="balance" property="balance"/>
     <result column="gender" property="gender"/>
@@ -111,5 +111,27 @@
         AND status = #{status}
     LIMIT #{offSet}, #{pageSize}
   </select>
+
+  <insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO `book_system`.`user`
+        (`username`, `password`, `nickname`, `phome_num`, `email`, `gender`, `avatar`)
+    VALUES
+        (#{username}, #{password}, #{nickname}, #{phomeNum}, #{email}, #{gender}, #{avatar})
+  </insert>
+
+  <select id="getUserById" parameterType="int" resultMap="userMap">
+    SELECT * FROM `book_system`.`user`
+    WHERE `id` = #{id}
+  </select>
+
+  <update id="update" parameterType="User">
+    UPDATE `book_system`.`user`
+    SET
+        `phome_num` = #{phomeNum},
+        `email` = #{email},
+        `gender` = #{gender},
+        `avatar` = #{avatar}
+    WHERE `id` = #{id};
+  </update>
 
 </mapper>

@@ -31,4 +31,8 @@ public interface BookDao {
 
     public int updateCurrentOwner(int bookId, int userId);
 
+    public int updateBook(Book book);
+
+    public int deleteBook(int id);
+
 }

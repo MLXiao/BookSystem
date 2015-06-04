@@ -1,0 +1,59 @@
+ul {
+  list-style: none;
+}
+
+li {
+  display: inline-block;
+}
+
+.content_wrapper {
+  padding-left: 492px;
+  padding-top: 80px;
+  font-family: Microsoft Yahei;
+}
+
+input {
+  width: 240px;
+  height: 25px;
+  border: 1px solid #C0B6B6;
+}
+
+select {
+  width: 241px;
+  height: 30px;
+}
+
+.title {
+  width: 80px;
+}
+
+.content {
+  width: 270px;;
+}
+
+.avatar_wrapper {
+  position: absolute;
+  left: 313px;
+  top: 170px;
+  text-align: center;
+}
+
+.avatar_wrapper img {
+  display: inline-block;
+  width: 120px;
+  height: 120px;
+  text-align: center;
+  line-height: 120px;
+  cursor: pointer;
+}
+
+button {
+  width: 114px;
+  height: 34px;
+  font-size: 16pt;
+  margin: 30px;
+}
+
+.error_message {
+  color: rgb(231, 2, 2);
+}

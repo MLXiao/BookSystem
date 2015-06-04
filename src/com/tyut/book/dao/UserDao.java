@@ -34,4 +34,10 @@ public interface UserDao {
     public List<BorrowHistory> findBorrowHistory(int userId,
             Pagination pagination, String status);
 
+    public int insert(User user);
+
+    public User getUserById(int id);
+
+    public int update(User user);
+
 }

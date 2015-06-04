@@ -29,7 +29,7 @@
       <a class="forgot_pass" href="#">忘记密码？</a>
     </div>
     <input type="button" id="loginBtn" value="登录">
-    <a class="register" href="#">立即注册</a>
+    <a class="register" href="${mt:getFullPath('') }/user/register">立即注册</a>
   </div>
 </div>
 

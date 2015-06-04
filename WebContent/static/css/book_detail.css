@@ -1,0 +1,58 @@
+.book_info_wrapper {
+  font-size: 15pt;
+}
+
+.book_info_wrapper ul {
+  position: relative;
+}
+
+.book_info_wrapper li {
+  display: inline-block;
+}
+
+.book_info_wrapper .title {
+  width: 120px;
+}
+
+.basic_info {
+  width: 400px;
+  left: 600px;
+  top: 80px;
+}
+
+.brief_info {
+  width: 655px;
+  top: 130px;
+  left: 280px;
+}
+
+.cover {
+  display: inline-block;
+  position: relative;
+  top: -314px;
+  left: 320px;
+}
+
+.collect {
+  text-align: center;
+  width: 60px;
+  height: 90px;
+  position: absolute;
+  top: 80px;
+  left: 187px;
+}
+
+.collect img {
+  width: 60px;
+  height: 60px;
+}
+
+.borrow {
+  display: inline-block;
+  width: 103px;
+  height: 38px;
+  font-size: 13pt;
+  position: relative;
+  left: 581px;
+  top: -54px;
+}

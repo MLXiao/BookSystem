@@ -15,18 +15,24 @@ public class Constants {
     public static final String APP_URL_BOOK_PREFIX = APP_URL_PREFIX + "/book";
     public static final String APP_URL_USER_PREFIX = APP_URL_PREFIX + "/user";
     public static final String HOMEPAGE_JSP = "homepage";
-    public static final String ADD_BOOK_JSP = "add_book";
+    public static final String SAVE_BOOK_JSP = "save_book";
     public static final String MY_BOOK_JSP = "my_book";
     public static final String BOOK_DETAIL_JSP = "book_detail";
     public static final String MESSAGE_JSP = "message";
     public static final String MY_COLLECT = "my_collect";
     public static final String MY_BORROW = "my_borrow";
+    public static final String REGISTER = "register";
+    public static final String SHOW_USER = "show_user";
+    public static final String EDIT_USER = "edit_user";
 
     public static final String ALL_CATEGORY = "ALL_CATEGORY";
 
     public static final String FLASH_MESSAGE = "FLASH_MESSAGE";
 
     public static final String MESSAGE_COUNT = "MESSAGE_COUNT";
+
+
+
 
 
 

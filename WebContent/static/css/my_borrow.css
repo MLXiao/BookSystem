@@ -1,15 +1,9 @@
-@charset "utf-8";
-
-.top_bar {
-  margin-top: 40px;
-}
-
 .left_menu {
   width: 150px;
   height: 200px;
   float: left;
-  margin-top: 40px;
-  margin-left: 45px;
+  margin-top: 50px;
+  margin-left: 75px;
 }
 
 .left_menu ul {
@@ -36,7 +30,7 @@
 .table_wrapper {
   float: left;
   border-top: 1px solid rgb(158, 158, 158);
-  margin-top: 40px;
+  margin-top: 52px;
   margin-left: 20px;
 }
 
@@ -58,14 +52,14 @@
   margin-right: 25px;
 }
 
-.table_item:HOVER {
-  background-color: #eaeaea;
-}
-
 .table_wrapper img {
   width: 40px;
   height: 50px;
   vertical-align: middle;
+}
+
+.table_item:HOVER {
+  background-color: #eaeaea;
 }
 
 .table_wrapper .cover {
@@ -78,35 +72,15 @@
 }
 
 .table_wrapper .author {
-  width: 150px;
+  width: 100px;
 }
 
 .table_wrapper .time {
   text-align: center;
-  width: 150px;
-}
-
-.table_wrapper .owner {
-  width: 100px;
-  text-align: center;
+  width: 250px;
 }
 
 .table_wrapper .operation {
-  width: 100px;
+  width: 120px;
   text-align: center;
-}
-
-.content_wrapper .pagination {
-  position: absolute;
-  top: 765px;
-  left: 616px;
-}
-
-.flash_message {
-  position: absolute;
-  top: 66px;
-  right: 90px;
-  font-size: 20pt;
-  color: #107DA5;
-  display: none
 }

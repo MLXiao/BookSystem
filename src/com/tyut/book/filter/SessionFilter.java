@@ -62,7 +62,7 @@ public class SessionFilter implements Filter {
         if (notNeedLogin || session.getAttribute(Constants.USER) != null) {
             chain.doFilter(req, res);
         } else {
-            response.sendRedirect(PathUtil.getFullPath("/user/homepage#login"));
+            response.sendRedirect(PathUtil.getFullPath("/user/homepage?#login"));
         }
     }
     @Override

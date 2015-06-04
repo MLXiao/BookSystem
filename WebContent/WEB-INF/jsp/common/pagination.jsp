@@ -6,6 +6,7 @@
 <%@page import="com.tyut.book.Constants"%>
 <%@page import="java.util.List"%>
 <%@ taglib prefix="mt" uri="/myTags" %>
+<link rel="stylesheet" href="${mt:getStaticUrl() }/css/pagination.css" />
 <div class="pagination">
   <% Pagination pagination = (Pagination)request.getAttribute("pagination");          %>
   <% int currentPage = pagination.getCurrentPage();          %>
@@ -18,7 +19,7 @@
     <% }                       %>
 
     <% if (currentPage > 1)  { %>
-      <a class="pre_page" href="#">上一页</a>
+      <a class="pre_page" onclick="goPage(this)" href="javascript:void(0)">上一页</a>
     <% }                        %>
 
     <% for (int pageNum : pageList) {      %>
@@ -75,4 +76,9 @@
         }
         fillTable();
     }
+    $('.page_num').each(function() {
+        if ($(this).text() == $('input[type=hidden][name=currentPage]').val()) {
+            $(this).css("color", "rgb(43, 195, 109)");
+        }
+    });
 </script>
